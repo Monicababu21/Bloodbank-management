@@ -48,7 +48,7 @@ Create a `.env` file in the root directory and add your credentials:
 ```env
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=your_password
+DB_PASSWORD=Arun12
 DB_NAME=bloodbank
 SESSION_SECRET=a_secure_random_string
 PORT=3000
