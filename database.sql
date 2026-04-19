@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS bloodbank;
-USE bloodbank;
+-- CREATE DATABASE IF NOT EXISTS bloodbank;
+-- USE bloodbank;
 
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -41,3 +41,38 @@
 git clone https://github.com/Monicababu21/bloodbank-management.git
 cd bloodbank-management
 npm install
+```
+
+### 3. Database Configuration
+Create a `.env` file in the root directory and add your credentials:
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=bloodbank
+SESSION_SECRET=a_secure_random_string
+PORT=3000
+```
+
+### 4. Initialize Database
+Run the setup script to create tables and seed initial data:
+```bash
+node setup_db.js
+node seed.js
+```
+
+### 5. Run the App
+```bash
+npm start
+```
+Access the app at `http://localhost:3000`
+
+---
+
+## 📄 License
+
+This project is licensed under the ISC License.
+
+---
+
+*“Preserving the Flow of Life”*
