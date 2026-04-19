@@ -1,0 +1,133 @@
+<%- include('../partials/header') %>
+
+<h3 class="fw-bold text-white mb-5 fade-in">System Analytics & Historical Metrics</h3>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="glass p-5 fade-in" style="animation-delay: 0.2s;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold text-white mb-0">Monthly Donation Uplinks</h5>
+                <i class="fa-solid fa-chart-line text-primary"></i>
+            </div>
+            <div style="height: 300px; position: relative;">
+                <canvas id="donationsChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="glass p-5 fade-in" style="animation-delay: 0.4s;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold text-white mb-0">Total Asset Consumption (Units)</h5>
+                <i class="fa-solid fa-chart-bar text-purple" style="color: var(--accent-purple);"></i>
+            </div>
+            <div style="height: 300px; position: relative;">
+                <canvas id="usageChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row fade-in" style="animation-delay: 0.6s;">
+    <div class="col-12">
+        <div class="glass p-4 border-start border-4 border-info">
+            <div class="row align-items-center">
+                <div class="col-md-1 text-center">
+                    <i class="fa-solid fa-microchip fs-2 text-info"></i>
+                </div>
+                <div class="col-md-11 text-white-50">
+                    <small class="fw-bold text-info">DATA INTEGRITY ADVISORY</small><br>
+                    All analytics are generated in real-time based on secured peripheral hospital traffic and donor registry logs.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Embed data securely -->
+<script>
+    window.reportData = {
+        donations: <%- monthlyDonations %>,
+        usage: <%- bloodUsage %>
+    };
+    
+    // Global Chart.js defaults for Dark Theme
+    Chart.defaults.color = '#94a3b8';
+    Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.05)';
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const data = window.reportData;
+    
+    // Monthly Donations Chart
+    const labelsDonations = data.donations.map(d => d.month);
+    const dataDonations = data.donations.map(d => d.count);
+    
+    const ctx1 = document.getElementById('donationsChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: labelsDonations,
+            datasets: [{
+                label: 'Donors Provisioned',
+                data: dataDonations,
+                borderColor: '#00d2ff',
+                backgroundColor: 'rgba(0, 210, 255, 0.05)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#00d2ff',
+                pointBorderColor: '#fff',
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Blood Usage Chart
+    const labelsUsage = data.usage.map(u => u.blood_group);
+    const dataUsage = data.usage.map(u => u.total_used);
+    
+    const ctx2 = document.getElementById('usageChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: labelsUsage,
+            datasets: [{
+                label: 'Units Transmitted',
+                data: dataUsage,
+                backgroundColor: [
+                    '#00d2ff', '#9d50bb', '#ff416c', '#00b09b', 
+                    '#3182ce', '#2b6cb0', '#4299e1', '#63b3ed'
+                ],
+                borderRadius: 8,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+});
+</script>
+
+<%- include('../partials/footer') %>

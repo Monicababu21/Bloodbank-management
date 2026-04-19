@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4 fade-in">
+    <h3 class="fw-bold text-white">Partner Institutions</h3>
+    <a href="/hospitals/add" class="btn-premium text-decoration-none" style="background: linear-gradient(135deg, var(--accent-green), #96c93d);">
+        <i class="fa-solid fa-plus me-2"></i>Provision Hospital
+    </a>
+</div>
+
+<% if (success) { %>
+    <div class="alert glass border-0 bg-success bg-opacity-10 text-success fade-in mb-4">
+        <i class="fa-solid fa-circle-check me-2"></i><%= success %>
+    </div>
+<% } %>
+
+<div class="glass p-1 fade-in" style="animation-delay: 0.2s;">
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>INSTITUTION NAME</th>
+                    <th>UPLINK EMAIL</th>
+                    <th>SECURE COMMS</th>
+                    <th>ONBOARDING DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% hospitals.forEach(hospital => { %>
+                <tr>
+                    <td class="fw-bold text-white"><%= hospital.name %></td>
+                    <td class="text-white-50"><%= hospital.email %></td>
+                    <td><span class="text-white opacity-75"><%= hospital.phone %></span></td>
+                    <td><%= new Date(hospital.created_at).toLocaleDateString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+<div class="mb-4 fade-in">
+    <a href="/inventory" class="text-muted text-decoration-none small">
+        <i class="fa-solid fa-arrow-left me-2"></i>RETURN TO INVENTORY
+    </a>
+</div>
+
+<div class="row fade-in">
+    <div class="col-lg-5 mx-auto">
+        <div class="glass p-5">
+            <div class="mb-5 text-center">
+                <h4 class="fw-bold text-white mb-1">Adjust Stock Indices</h4>
+                <p class="text-muted small">MANUAL INVENTORY OVERRIDE</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert glass border-0 bg-danger bg-opacity-10 text-danger mb-4">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error %>
+                </div>
+            <% } %>
+
+            <form action="/inventory/update" method="POST">
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">SELECT BLOOD CATEGORY</label>
+                    <select name="blood_group" class="form-input" required>
+                        <% inventory.forEach(inv => { %>
+                            <option value="<%= inv.blood_group %>"><%= inv.blood_group %> (CURRENT: <%= inv.units %> UNITS)</option>
+                        <% }) %>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">QUANTITY ADJUSTMENT</label>
+                    <input type="number" name="units" class="form-input" min="1" required placeholder="Enter Units">
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label text-muted small fw-bold">PROTOCOL SELECTION</label>
+                    <div class="d-flex gap-4 p-3 glass" style="background: rgba(255,255,255,0.02);">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="action" value="add" id="actionAdd" checked>
+                            <label class="form-check-label text-success fw-bold small" for="actionAdd">ADD TO STOCK</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="action" value="subtract" id="actionSub">
+                            <label class="form-check-label text-danger fw-bold small" for="actionSub">SUBTRACT FROM STOCK</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-premium w-100" style="background: linear-gradient(135deg, #f6d365, #fda085);">
+                    COMMIT ADJUSTMENT
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

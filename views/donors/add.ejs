@@ -1,0 +1,88 @@
+<%- include('../partials/header') %>
+
+<div class="mb-4 fade-in">
+    <a href="/donors" class="text-muted text-decoration-none small">
+        <i class="fa-solid fa-arrow-left me-2"></i>RETURN TO REGISTRY
+    </a>
+</div>
+
+<div class="row fade-in">
+    <div class="col-lg-8 mx-auto">
+        <div class="glass p-5">
+            <div class="mb-5">
+                <h4 class="fw-bold text-white mb-1">Provision New Donor</h4>
+                <p class="text-muted small">SECURE INFRASTRUCTURE REGISTRATION</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert glass border-0 bg-danger bg-opacity-10 text-danger mb-4">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error %>
+                </div>
+            <% } %>
+
+            <form action="/donors/add" method="POST">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">LEGAL IDENTITY NAME</label>
+                        <input type="text" name="name" class="form-input" required placeholder="Full Name">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">AGE</label>
+                        <input type="number" name="age" class="form-input" required placeholder="00">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">GENDER</label>
+                        <select name="gender" class="form-input" required>
+                            <option value="Male">MALE</option>
+                            <option value="Female">FEMALE</option>
+                            <option value="Other">OTHER</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">BLOOD CATEGORY</label>
+                        <select name="blood_group" class="form-input" required>
+                            <option value="A+">A POSITIVE (A+)</option>
+                            <option value="A-">A NEGATIVE (A-)</option>
+                            <option value="B+">B POSITIVE (B+)</option>
+                            <option value="B-">B NEGATIVE (B-)</option>
+                            <option value="AB+">AB POSITIVE (AB+)</option>
+                            <option value="AB-">AB NEGATIVE (AB-)</option>
+                            <option value="O+">O POSITIVE (O+)</option>
+                            <option value="O-">O NEGATIVE (O-)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">LAST ACTIVITY TIMESTAMP</label>
+                        <input type="date" name="last_donation_date" class="form-input">
+                        <small class="text-muted" style="font-size: 0.7rem;">SYSTEM ENFORCES 90-DAY DELAY BETWEEN MOVEMENTS</small>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">COMMUNICATION UPLINK (PHONE)</label>
+                        <input type="text" name="phone" class="form-input" required placeholder="Contact Number">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">ENCRYPTED EMAIL</label>
+                        <input type="email" name="email" class="form-input" placeholder="Email Address">
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label text-muted small fw-bold">PHYSICAL COORDINATES (ADDRESS)</label>
+                    <textarea name="address" class="form-input" rows="3" placeholder="Residential Details"></textarea>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn-premium px-5">INITIALIZE REGISTRATION</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-5 fade-in">
+    <h3 class="fw-bold text-white">External Requests Traffic</h3>
+    <a href="/requests/add" class="btn-premium text-decoration-none">
+        <i class="fa-solid fa-plus me-2"></i>Initialize New Request
+    </a>
+</div>
+
+<% if (error) { %>
+    <div class="alert glass border-0 bg-danger bg-opacity-10 text-danger fade-in mb-4">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error %>
+    </div>
+<% } %>
+<% if (success) { %>
+    <div class="alert glass border-0 bg-success bg-opacity-10 text-success fade-in mb-4">
+        <i class="fa-solid fa-circle-check me-2"></i><%= success %>
+    </div>
+<% } %>
+
+<div class="glass p-1 fade-in" style="animation-delay: 0.2s;">
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>REQUESTER INSTITUTION</th>
+                    <th>BLOOD CATEGORY</th>
+                    <th>QUANTITY (U)</th>
+                    <th>LOG STATUS</th>
+                    <th>TIMESTAMP</th>
+                    <th class="text-end">TRAFFIC CONTROL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(requests.length === 0) { %>
+                    <tr><td colspan="6" class="text-center py-5 text-muted small">NO ACTIVE REQUESTS IN SYSTEM CORE</td></tr>
+                <% } %>
+                <% requests.forEach(req => { %>
+                <tr>
+                    <td class="fw-bold text-white"><%= req.hospital_name %></td>
+                    <td>
+                        <span class="badge glass border-0" style="background: rgba(0, 210, 255, 0.1); color: var(--accent-blue);">
+                            <%= req.blood_group %>
+                        </span>
+                    </td>
+                    <td><span class="fw-bold text-white"><%= req.units %></span></td>
+                    <td>
+                        <% if(req.status === 'Pending') { %><span class="badge border-0 bg-warning bg-opacity-10 text-warning px-3 py-1">PENDING</span><% } %>
+                        <% if(req.status === 'Approved') { %><span class="badge border-0 bg-success bg-opacity-10 text-success px-3 py-1">AUTHORIZED</span><% } %>
+                        <% if(req.status === 'Rejected') { %><span class="badge border-0 bg-danger bg-opacity-10 px-3 py-1" style="color: #ff6b6b !important;">DENIED</span><% } %>
+                    </td>
+                    <td class="small" style="color: #cbd5e1;"><%= new Date(req.created_at).toLocaleDateString() %></td>
+                    <td class="text-end">
+                        <% if(req.status === 'Pending') { %>
+                            <div class="d-flex justify-content-end gap-2">
+                                <form action="/requests/<%= req.id %>/approve" method="POST" class="m-0">
+                                    <button type="submit" class="btn btn-sm btn-outline-success border-0 px-3 rounded-pill" style="background: rgba(0, 176, 155, 0.1);">AUTHORIZE</button>
+                                </form>
+                                <form action="/requests/<%= req.id %>/reject" method="POST" class="m-0">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger border-0 px-3 rounded-pill" style="background: rgba(255, 65, 108, 0.2); color: #ff6b6b; font-weight: 600;">DENY</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

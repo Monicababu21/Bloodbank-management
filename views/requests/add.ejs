@@ -1,0 +1,62 @@
+<%- include('../partials/header') %>
+
+<div class="mb-4 fade-in">
+    <a href="/requests" class="text-muted text-decoration-none small">
+        <i class="fa-solid fa-arrow-left me-2"> return to traffic control</i>
+    </a>
+</div>
+
+<div class="row fade-in">
+    <div class="col-lg-6 mx-auto">
+        <div class="glass p-5">
+            <div class="mb-5">
+                <h4 class="fw-bold text-white mb-1">Initialize Blood Request</h4>
+                <p class="text-muted small">SECURE OUTBOUND LOGISTICS REQUEST</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert glass border-0 bg-danger bg-opacity-10 text-danger mb-4">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error %>
+                </div>
+            <% } %>
+
+            <form action="/requests/add" method="POST">
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">REQUESTING INSTITUTION</label>
+                    <select name="hospital_id" class="form-input" required>
+                        <option value="" disabled selected>IDENTITY NOT VERIFIED...</option>
+                        <% hospitals.forEach(h => { %>
+                            <option value="<%= h.id %>"><%= h.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">BLOOD CATEGORY REQUIRED</label>
+                        <select name="blood_group" class="form-input" required>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold">QUANTITY (U)</label>
+                        <input type="number" name="units" class="form-input" min="1" required placeholder="00">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-premium w-100">
+                    TRANSMIT REQUEST TO CORE
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

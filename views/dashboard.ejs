@@ -1,0 +1,184 @@
+<%- include('partials/header') %>
+
+<!-- Quick Metrics -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="glass card-metric glow-blue fade-in" style="animation-delay: 0.1s;">
+            <div class="icon-wrapper glass" style="background: rgba(0, 210, 255, 0.1); color: var(--accent-blue);">
+                <i class="fa-solid fa-droplet"></i>
+            </div>
+            <div class="metric-label">TOTAL STOCK</div>
+            <div class="metric-value"><%= metrics.totalUnits %> Units</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="glass card-metric glow-purple fade-in" style="animation-delay: 0.2s;">
+            <div class="icon-wrapper glass" style="background: rgba(157, 80, 187, 0.1); color: var(--accent-purple);">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="metric-label">REGISTERED DONORS</div>
+            <div class="metric-value"><%= metrics.totalDonors %></div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="glass card-metric glow-red fade-in" style="animation-delay: 0.3s;">
+            <div class="icon-wrapper glass" style="background: rgba(255, 65, 108, 0.1); color: var(--accent-red);">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div class="metric-label">PENDING ADVISORIES</div>
+            <div class="metric-value"><%= metrics.pendingRequests %></div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="glass card-metric glow-green fade-in" style="animation-delay: 0.4s;">
+            <div class="icon-wrapper glass" style="background: rgba(0, 176, 155, 0.1); color: var(--accent-green);">
+                <i class="fa-solid fa-building-circle-check"></i>
+            </div>
+            <div class="metric-label">PARTNER HOSPITALS</div>
+            <div class="metric-value"><%= metrics.totalHospitals %></div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Inventory Analysis -->
+    <div class="col-md-8 mb-4">
+        <div class="glass p-4 fade-in" style="animation-delay: 0.5s;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0 text-white">Inventory Integrity Overview</h5>
+                <span class="badge rounded-pill bg-primary border-0" style="font-size: 0.75rem;">SECURED SYSTEM</span>
+            </div>
+            
+            <div class="row">
+                <% inventory.forEach(inv => { 
+                    let percentage = Math.min((inv.units / 100) * 100, 100);
+                    let color = 'var(--accent-green)';
+                    if (inv.units < 20) color = 'var(--accent-red)';
+                    else if (inv.units <= 50) color = 'var(--accent-purple)';
+                %>
+                <div class="col-md-6 inventory-item">
+                    <div class="d-flex justify-content-between align-items-end mb-1">
+                        <div>
+                            <span class="fw-bold text-white fs-5"><%= inv.blood_group %></span>
+                            <small class="ms-2 text-white-50">STABILITY INDEX</small>
+                        </div>
+                        <span class="fw-bold" style="color: <%= color %>;"><%= inv.units %> U</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: <%= percentage %>%; background: <%= color %>; box-shadow: 0 0 10px <%= color %>44;"></div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Panel -->
+    <div class="col-md-4 mb-4">
+        <div class="glass p-4 h-100 fade-in" style="animation-delay: 0.6s;">
+            <h5 class="fw-bold mb-4 text-white"><i class="fa-solid fa-shield-halved text-warning me-2"></i>Critical Advisories</h5>
+            
+            <% if (alerts.lowStock.length > 0) { %>
+                <div class="mb-4">
+                    <div class="small fw-bold ls-1 mb-2" style="color: #cbd5e1;">CRITICAL STOCK LEVELS</div>
+                    <% alerts.lowStock.forEach(stock => { %>
+                        <div class="alert-glowing">
+                            <i class="fa-solid fa-circle-exclamation text-danger fs-5"></i>
+                            <div>
+                                <div class="fw-bold mb-0">System Breach: <%= stock.blood_group %></div>
+                                <small style="color: rgba(255, 255, 255, 0.75);">Critical depletion: <%= stock.units %> units remaining.</small>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+
+            <% if (alerts.urgentRequests.length > 0) { %>
+                <div>
+                    <div class="small fw-bold ls-1 mb-2" style="color: #cbd5e1;">EXTERNAL DEMAND BURST</div>
+                    <% alerts.urgentRequests.forEach(req => { %>
+                        <div class="glass p-3 mb-2 border-0 border-start border-warning border-3" style="background: rgba(255, 193, 7, 0.05);">
+                            <div class="fw-bold text-warning"><%= req.hospital_name %></div>
+                            <small style="color: #cbd5e1;">High priority request: <span class="text-white"><%= req.units %> Units (<%= req.blood_group %>)</span></small>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+
+            <% if (alerts.lowStock.length === 0 && alerts.urgentRequests.length === 0) { %>
+                <div class="text-center py-5">
+                    <div class="icon-wrapper glass mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem; color: var(--accent-green);">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="fw-bold text-white">System Safe</div>
+                    <small class="text-uppercase ls-1" style="color: #cbd5e1;">No critical threats detected</small>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Activity Logs -->
+    <div class="col-md-6 mb-4">
+        <div class="glass p-4 fade-in" style="animation-delay: 0.7s;">
+            <h5 class="fw-bold mb-4 text-white">Infrastructure Logs</h5>
+            <div class="timeline">
+                <% if(activity.recentDonors.length === 0) { %> <p class="text-muted">No recent logs available.</p> <% } %>
+                <% activity.recentDonors.forEach(donor => { %>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue);"></div>
+                        <div class="ms-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold"><%= donor.name %></span>
+                                <span class="badge glass border-0" style="color: var(--accent-blue); background: rgba(0, 210, 255, 0.1);"><%= donor.blood_group %></span>
+                            </div>
+                            <small style="color: #cbd5e1;">New source added to registry | Secured: <%= donor.last_donation_date ? new Date(donor.last_donation_date).toLocaleDateString() : 'Initial' %></small>
+                            
+                            <% 
+                                if(donor.last_donation_date) {
+                                    const diffDays = Math.ceil((new Date() - new Date(donor.last_donation_date)) / (1000 * 60 * 60 * 24));
+                                    if(diffDays < 90 && diffDays >= 0) {
+                                        const daysLeft = 90 - diffDays;
+                            %>
+                                <div class="mt-1">
+                                    <span class="badge border-0 bg-danger text-white" style="font-size: 0.65rem;">COOLING PERIOD: <%= daysLeft %>D</span>
+                                </div>
+                            <% 
+                                    }
+                                }
+                            %>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approved Traffic -->
+    <div class="col-md-6 mb-4">
+        <div class="glass p-4 fade-in" style="animation-delay: 0.8s;">
+            <h5 class="fw-bold mb-4 text-white">Outbound Traffic (Approved)</h5>
+            <% if(activity.recentApprovedRequests.length === 0) { %> <p class="text-muted">No recent approved movements.</p> <% } %>
+            <% activity.recentApprovedRequests.forEach(req => { %>
+                <div class="glass mb-3 p-3 border-0 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-wrapper glass" style="width: 40px; height: 40px; font-size: 1rem; color: var(--accent-purple);">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold"><%= req.hospital_name %></div>
+                            <small style="color: #cbd5e1;">Timestamp: <%= new Date(req.created_at).toLocaleDateString() %></small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-bold text-white"><%= req.units %> U</div>
+                        <div class="small fw-bold" style="color: var(--accent-purple);"><%= req.blood_group %></div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

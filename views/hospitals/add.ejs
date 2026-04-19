@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+
+<div class="mb-4 fade-in">
+    <a href="/hospitals" class="text-muted text-decoration-none small">
+        <i class="fa-solid fa-arrow-left me-2"></i>RETURN TO INSTITUTIONS
+    </a>
+</div>
+
+<div class="row fade-in">
+    <div class="col-lg-6 mx-auto">
+        <div class="glass p-5">
+            <div class="mb-5">
+                <h4 class="fw-bold text-white mb-1">Provision Hospital</h4>
+                <p class="text-muted small">PARTNER INFRASTRUCTURE INTEGRATION</p>
+            </div>
+
+            <form action="/hospitals/add" method="POST">
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">INSTITUTION LEGAL NAME</label>
+                    <input type="text" name="name" class="form-input" required placeholder="Hospital Authority Name">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">PRIMARY CONTACT EMAIL</label>
+                    <input type="email" name="email" class="form-input" required placeholder="admin@hospital.org">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">SECURE COMMS (PHONE)</label>
+                    <input type="text" name="phone" class="form-input" required placeholder="+1 555-0000">
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label text-muted small fw-bold">GEOGRAPHIC COORDINATES (ADDRESS)</label>
+                    <textarea name="address" class="form-input" rows="3" required placeholder="Facility Location"></textarea>
+                </div>
+
+                <button type="submit" class="btn-premium w-100" style="background: linear-gradient(135deg, var(--accent-green), #96c93d);">
+                    AUTHORIZE INSTITUTION
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

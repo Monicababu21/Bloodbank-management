@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HemoVault | Secure Logistics Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS (Only for grid and basic utils) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<% if (user) { %>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand flex-column align-items-start">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-droplet" style="color: var(--accent-red); filter: drop-shadow(0 0 8px var(--accent-red));"></i>
+                <span class="fw-bold" style="letter-spacing: 1px;">HEMOVAULT</span>
+            </div>
+            <div style="font-size: 0.65rem; margin-top: 4px; letter-spacing: 0.5px; font-weight: 500; color: rgba(255,255,255,0.7);">PRESERVING THE FLOW OF LIFE</div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="/dashboard" id="nav-dashboard">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/donors" id="nav-donors">
+                <i class="fa-solid fa-users"></i>
+                <span>Donors</span>
+            </a>
+            <a href="/hospitals" id="nav-hospitals">
+                <i class="fa-solid fa-hospital"></i>
+                <span>Hospitals</span>
+            </a>
+            <a href="/inventory" id="nav-inventory">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="/requests" id="nav-requests">
+                <i class="fa-solid fa-file-waveform"></i>
+                <span>Requests</span>
+            </a>
+            <a href="/reports" id="nav-reports">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Reports</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <header class="top-navbar fade-in">
+            <div class="page-title">
+                <h4 class="mb-0 fw-bold">HEMOVAULT <span class="text-muted mx-2">|</span> <span class="small opacity-50 fw-normal">CONTROL CENTER</span></h4>
+            </div>
+            
+            <div class="user-profile">
+                <div class="text-end me-2">
+                    <div class="small" style="color: #cbd5e1; font-weight: 500; letter-spacing: 0.5px;">SECURED ACCESS</div>
+                    <div class="fw-bold" style="font-size: 0.9rem;"><%= user.username.toUpperCase() %></div>
+                </div>
+                <a href="/logout" class="btn-logout-premium">
+                    <i class="fa-solid fa-power-off"></i>
+                    <span>TERMINATE SESSION</span>
+                </a>
+            </div>
+        </header>
+
+        <script>
+            // Highlight active navigation
+            document.addEventListener('DOMContentLoaded', () => {
+                const path = window.location.pathname;
+                if (path.includes('dashboard')) document.getElementById('nav-dashboard').classList.add('active');
+                if (path.includes('donors')) document.getElementById('nav-donors').classList.add('active');
+                if (path.includes('hospitals')) document.getElementById('nav-hospitals').classList.add('active');
+                if (path.includes('inventory')) document.getElementById('nav-inventory').classList.add('active');
+                if (path.includes('requests')) document.getElementById('nav-requests').classList.add('active');
+                if (path.includes('reports')) document.getElementById('nav-reports').classList.add('active');
+            });
+        </script>
+<% } %>
